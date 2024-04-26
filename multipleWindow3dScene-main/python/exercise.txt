@@ -1,0 +1,75 @@
+Write a prpgram that takes a sentence as input from the user,dynamically allocates memory to store the longest word in the sentence,and then print the longest word
+Example. string is "welcome " so the output string should be "welcome"
+note: all the inputs should be taken from user.don't forgot to free the allocated memoryusing the free()f function to avoid memory leaks in c
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_LENGTH 1000
+
+int main() {
+    char sentence[MAX_LENGTH];
+    printf("Enter a sentence: ");
+    fgets(sentence, sizeof(sentence), stdin);
+
+    // Remove trailing newline character if present
+    if (sentence[strlen(sentence) - 1] == '\n')
+        sentence[strlen(sentence) - 1] = '\0';
+
+    // Dynamically allocate memory for the longest word
+    char *longestWord = NULL;
+
+    // Variables to track longest word
+    char *token;
+
+    // Tokenize the sentence to find the longest word
+    token = strtok(sentence, " ");
+    while (token != NULL) {
+        if (longestWord == NULL || strlen(token) > strlen(longestWord)) {
+            // Reallocate memory for the new longest word
+            longestWord = (char *)realloc(longestWord, strlen(token) + 1);
+            if (longestWord == NULL) {
+                printf("Memory allocation failed\n");
+                return 1;
+            }
+            strcpy(longestWord, token);
+        }
+        token = strtok(NULL, " ");
+    }
+
+    printf("Longest word: %s\n", longestWord);
+
+    // Free dynamically allocated memory
+    free(longestWord);
+
+    return 0;
+}
+
+#Searching operation in c 
+
+#include <stdio.h>
+
+int main() {
+    int arr[10] = {1, 5, 9, 15, 20, 25, 30, 35, 40, 45};
+    int num, found = 0;
+
+    // Input number to search
+    printf("Enter a number to search: ");
+    scanf("%d", &num);
+
+    // Linear search algorithm
+    for (int i = 0; i < 10; i++) {
+        if (arr[i] == num) {
+            found = 1;
+            printf("%d found at index %d.\n", num, i);
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("%d not found in the array.\n", num);
+    }
+
+    return 0;
+}
